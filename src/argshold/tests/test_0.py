@@ -1,3 +1,4 @@
+import functools
 import unittest
 
 from frozendict import frozendict
@@ -30,7 +31,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
 
     def test_repr(self):
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
-        self.assertEqual(repr(holder), "FrozenArgumentHolder(1, 2, a=3, b=4)")
+        self.assertEqual(repr(holder), "FrozenArgumentHolder(1, 2, a = 3, b = 4)")
 
     def test_immutable_attributes(self):
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
@@ -53,23 +54,30 @@ class TestFrozenArgumentHolder(unittest.TestCase):
         self.assertEqual(holder, copied)
         self.assertIsNot(holder, copied)
 
-    def test_partial(self):
-        def sample_function(x, y, a=0, b=0):
-            return x + y + a + b
-
-        holder = FrozenArgumentHolder(1, 2, a=3, b=4)
-        partial_func = holder.partial(sample_function)
-        self.assertEqual(partial_func(), 10)
-
     def test_partialmethod(self):
-        class SampleClass:
-            def sample_method(self, x, y, a=0, b=0):
-                return x + y + a + b
+        trueHolder = FrozenArgumentHolder(True)
+        falseHolder = FrozenArgumentHolder(False)
 
-        obj = SampleClass()
-        holder = FrozenArgumentHolder(1, 2, a=3, b=4)
-        partial_method = holder.partialmethod(obj.sample_method)
-        self.assertEqual(partial_method(obj), 10)
+        class Cell:
+            def __init__(self):
+                self._alive = False
+
+            @property
+            def alive(self):
+                return self._alive
+
+            def set_state(self, state):
+                self._alive = bool(state)
+
+            set_alive = trueHolder.partialmethod(set_state)
+            set_dead = falseHolder.partialmethod(set_state)
+
+        cell = Cell()
+        self.assertFalse(cell.alive)
+        cell.set_alive()
+        self.assertTrue(cell.alive)
+        cell.set_dead()
+        self.assertFalse(cell.alive)
 
 
 if __name__ == "__main__":

@@ -6,10 +6,12 @@ from typing import *
 from datarepr import datarepr
 from frozendict import frozendict
 
+__all__ = ["ArgumentHolder", "FrozenArgumentHolder"]
+
 
 class BaseArgumentHolder:
     def __eq__(self, other, /) -> bool:
-        if not isinstance(other, type(self)):
+        if not isinstance(other, BaseArgumentHolder):
             return False
         return self.args == other.args and self.kwargs == other.kwargs
 
@@ -22,9 +24,11 @@ class BaseArgumentHolder:
     def __setattr__(self, name, value) -> None:
         if name.startswith("_"):
             super().__setattr__(name, value)
+        elif isinstance(getattr(type(self), name), property):
+            super().__setattr__(name, value)
         else:
             msg = "%r object has no attribute %r"
-            msg %= (name, value)
+            msg %= (type(self).__name__, name)
             raise AttributeError(msg)
 
     def argumentHolder(self) -> ArgumentHolder:
@@ -52,25 +56,6 @@ class BaseArgumentHolder:
         )
 
 
-class FrozenArgumentHolder(BaseArgumentHolder):
-    def __hash__(self) -> int:
-        return (self.args, self.kwargs).__hash__()
-
-    def __init__(self, *args, **kwargs) -> None:
-        self._args = tuple(args)
-        self._kwargs = frozendict(kwargs)
-
-    @property
-    def args(self) -> tuple:
-        "This property holds the positional arguments."
-        return self._args
-
-    @property
-    def kwargs(self) -> frozendict:
-        "This property holds the keyword arguments."
-        return self._kwargs
-
-
 class ArgumentHolder(BaseArgumentHolder):
 
     def __init__(self, *args, **kwargs) -> None:
@@ -94,3 +79,22 @@ class ArgumentHolder(BaseArgumentHolder):
     @kwargs.setter
     def kwargs(self, value: Any) -> None:
         self._kwargs = dict(value)
+
+
+class FrozenArgumentHolder(BaseArgumentHolder):
+    def __hash__(self) -> int:
+        return (self.args, self.kwargs).__hash__()
+
+    def __init__(self, *args, **kwargs) -> None:
+        self._args = tuple(args)
+        self._kwargs = frozendict(kwargs)
+
+    @property
+    def args(self) -> tuple:
+        "This property holds the positional arguments."
+        return self._args
+
+    @property
+    def kwargs(self) -> frozendict:
+        "This property holds the keyword arguments."
+        return self._kwargs

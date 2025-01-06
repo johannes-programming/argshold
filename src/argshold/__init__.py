@@ -1,6 +1,2 @@
-def main(args=None):
-    print("Hello World!")
-
-
-if __name__ == "__main__":
-    main()
+from argshold.core import *
+from argshold.tests import *

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import functools
 from typing import *
 
@@ -17,7 +19,7 @@ class FrozenArgumentHolder:
     def __len__(self) -> int:
         return len(self.args) + len(self.kwargs)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         self._args = tuple(args)
         self._kwargs = frozendict(kwargs)
 
@@ -41,7 +43,7 @@ class FrozenArgumentHolder:
         "This method calls a callable using the arguments in the current instance."
         return callable(*self.args, **self.kwargs)
 
-    def copy(self):
+    def copy(self) -> FrozenArgumentHolder:
         "This method makes a copy of the current instance."
         return self.call(type(self))
 

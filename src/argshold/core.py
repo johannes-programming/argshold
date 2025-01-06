@@ -23,13 +23,13 @@ class BaseArgumentHolder:
 
     def __setattr__(self, name, value) -> None:
         if name.startswith("_"):
-            super().__setattr__(name, value)
-        elif isinstance(getattr(type(self), name), property):
-            super().__setattr__(name, value)
-        else:
-            msg = "%r object has no attribute %r"
-            msg %= (type(self).__name__, name)
-            raise AttributeError(msg)
+            return super().__setattr__(name, value)
+        member = getattr(type(self), name, None)
+        if isinstance(member, property):
+            return super().__setattr__(name, value)
+        msg = "%r object has no attribute %r"
+        msg %= (type(self).__name__, name)
+        raise AttributeError(msg)
 
     def argumentHolder(self) -> ArgumentHolder:
         return self.call(ArgumentHolder)

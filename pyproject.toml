@@ -18,13 +18,14 @@ classifiers = [
 dependencies = [
     "datarepr>=1.0.0",
     "frozendict>=2.4.6",
+    "makeprop>=0.1.0",
 ]
 description = "This project provides holders for the arguments for callables."
 keywords = []
 name = "argshold"
 readme = "README.rst"
 requires-python = ">=3.8"
-version = "0.1.0"
+version = "0.1.1"
 
 [project.license]
 file = "LICENSE.txt"

@@ -6,6 +6,8 @@ from typing import *
 
 from datarepr import datarepr
 from frozendict import frozendict
+from makeprop import makeprop
+from unhash import unhash
 
 __all__ = ["ArgumentHolder", "FrozenArgumentHolder"]
 
@@ -14,14 +16,32 @@ class BaseArgumentHolder(abc.ABC):
 
     __slots__ = ("_args", "_kwargs")
 
-    def __eq__(self, other, /) -> bool:
-        "This magic method implements self==other."
-        if not isinstance(other, BaseArgumentHolder):
-            return False
-        return self.args == other.args and self.kwargs == other.kwargs
+    def __ge__(self, other: Any, /) -> bool:
+        "This magic method implements self>=other."
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return (self.args, self.kwargs) >= (other.args, other.kwargs)
+
+    def __gt__(self, other: Any, /) -> bool:
+        "This magic method implements self>other."
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return (self.args, self.kwargs) > (other.args, other.kwargs)
 
     @abc.abstractmethod
     def __init__(self, *args: Any, **kwargs: Any): ...
+
+    def __le__(self, other: Any, /) -> bool:
+        "This magic method implements self<=other."
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return (self.args, self.kwargs) <= (other.args, other.kwargs)
+
+    def __lt__(self, other: Any, /) -> bool:
+        "This magic method implements self<other."
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return (self.args, self.kwargs) < (other.args, other.kwargs)
 
     def __len__(self) -> int:
         "This magic method implements len(self)."
@@ -35,7 +55,7 @@ class BaseArgumentHolder(abc.ABC):
     @abc.abstractmethod
     def args(self): ...
 
-    def call(self, callable: Callable) -> Any:
+    def call(self, callable: Callable, /) -> Any:
         "This method calls a callable using the arguments in the current instance."
         return callable(*self.args, **self.kwargs)
 
@@ -47,10 +67,12 @@ class BaseArgumentHolder(abc.ABC):
     @abc.abstractmethod
     def kwargs(self): ...
 
-    def partial(self, callable: Callable) -> functools.partial:
+    def partial(self, callable: Callable, /) -> functools.partial:
+        "This method creates a functools.partial object."
         return functools.partial(callable, *self.args, **self.kwargs)
 
-    def partialmethod(self, callable: Callable) -> functools.partial:
+    def partialmethod(self, callable: Callable, /) -> functools.partial:
+        "This method creates a functools.partialmethod object."
         return functools.partialmethod(
             callable,
             *self.args,
@@ -58,51 +80,52 @@ class BaseArgumentHolder(abc.ABC):
         )
 
     def toArgumentHolder(self) -> ArgumentHolder:
+        "This method converts the current instance into a ArgumentHolder object."
         return self.call(ArgumentHolder)
 
     def toFrozenArgumentHolder(self) -> FrozenArgumentHolder:
+        "This method converts the current instance into a FrozenArgumentHolder object."
         return self.call(FrozenArgumentHolder)
 
 
 class ArgumentHolder(BaseArgumentHolder):
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __eq__(self, other: Any, /) -> bool:
+        "This magic method implements self==other."
+        if not isinstance(other, ArgumentHolder):
+            return False
+        return (self.args, self.kwargs) == (other.args, other.kwargs)
+
+    __hash__ = unhash
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         "This magic method sets up the current instance."
         self._args = list(args)
         self._kwargs = dict(kwargs)
 
-    @property
-    def args(self) -> list:
+    @makeprop(delete=())
+    def args(self, value: Iterable) -> None:
         "This property holds the positional arguments."
-        return self._args
-
-    @args.setter
-    def args(self, value: Any) -> None:
         value = list(value)
         self._args.clear()
         self._args.extend(value)
 
-    @args.deleter
-    def args(self) -> None:
-        self._args.clear()
-
-    @property
-    def kwargs(self) -> dict:
+    @makeprop(delete=())
+    def kwargs(self) -> None:
         "This property holds the keyword arguments."
-        return self._kwargs
-
-    @kwargs.setter
-    def kwargs(self, value: Any) -> None:
         value = dict(value)
         self._kwargs.clear()
         self._kwargs.update(value)
 
-    @kwargs.deleter
-    def kwargs(self) -> None:
-        self._kwargs.clear()
-
 
 class FrozenArgumentHolder(BaseArgumentHolder):
+
+    def __eq__(self, other: Any, /) -> bool:
+        "This magic method implements self==other."
+        if not isinstance(other, FrozenArgumentHolder):
+            return False
+        return (self.args, self.kwargs) == (other.args, other.kwargs)
+
     def __hash__(self) -> int:
         "This magic method implements hash(self)."
         return (self.args, self.kwargs).__hash__()

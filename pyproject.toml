@@ -19,22 +19,23 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datarepr>=1.0.0",
+    "datarepr>=1.0",
     "frozendict>=2.4.6",
-    "makeprop>=0.1.0",
+    "makeprop>=1.0",
+    "unhash>=1.0",
 ]
 description = "This project provides holders for the arguments for callables."
 keywords = []
 name = "argshold"
 readme = "README.rst"
 requires-python = ">=3.8"
-version = "0.1.1+local.1"
+version = "0.1.1+local.2"
 
 [project.license]
 file = "LICENSE.txt"
 
 [project.urls]
-Documentation = "https://pypi.org/project/argshold"
+Documentation = "https://pypi.org/project/argshold/"
 Download = "https://pypi.org/project/argshold/#files"
 Index = "https://pypi.org/project/argshold/"
-Source = "https://github.com/johannes-programming/argshold"
+Source = "https://github.com/johannes-programming/argshold/"

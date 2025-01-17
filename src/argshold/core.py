@@ -16,32 +16,11 @@ class BaseArgumentHolder(abc.ABC):
 
     __slots__ = ("_args", "_kwargs")
 
-    def __ge__(self, other: Any, /) -> bool:
-        "This magic method implements self>=other."
-        if not isinstance(other, type(self)):
-            return NotImplemented
-        return (self.args, self.kwargs) >= (other.args, other.kwargs)
-
-    def __gt__(self, other: Any, /) -> bool:
-        "This magic method implements self>other."
-        if not isinstance(other, type(self)):
-            return NotImplemented
-        return (self.args, self.kwargs) > (other.args, other.kwargs)
+    @abc.abstractmethod
+    def __eq__(self, other: Any, /) -> bool: ...
 
     @abc.abstractmethod
     def __init__(self, *args: Any, **kwargs: Any): ...
-
-    def __le__(self, other: Any, /) -> bool:
-        "This magic method implements self<=other."
-        if not isinstance(other, type(self)):
-            return NotImplemented
-        return (self.args, self.kwargs) <= (other.args, other.kwargs)
-
-    def __lt__(self, other: Any, /) -> bool:
-        "This magic method implements self<other."
-        if not isinstance(other, type(self)):
-            return NotImplemented
-        return (self.args, self.kwargs) < (other.args, other.kwargs)
 
     def __len__(self) -> int:
         "This magic method implements len(self)."

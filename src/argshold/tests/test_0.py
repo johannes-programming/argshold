@@ -31,7 +31,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
 
     def test_repr(self):
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
-        self.assertEqual(repr(holder), "FrozenArgumentHolder(1, 2, a = 3, b = 4)")
+        self.assertEqual(repr(holder), "FrozenArgumentHolder(1, 2, a=3, b=4)")
 
     def test_immutable_attributes(self):
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)

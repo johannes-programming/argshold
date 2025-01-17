@@ -90,7 +90,7 @@ class ArgumentHolder(BaseArgumentHolder):
         self._args.extend(value)
 
     @makeprop(delete=())
-    def kwargs(self) -> None:
+    def kwargs(self, value: Any) -> None:
         "This property holds the keyword arguments."
         value = dict(value)
         self._kwargs.clear()

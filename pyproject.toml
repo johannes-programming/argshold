@@ -19,7 +19,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datarepr>=1.0",
+    "datarepr>=1.0.0",
     "frozendict>=2.4.6",
     "makeprop>=1.0",
     "unhash>=1.0",
@@ -29,7 +29,7 @@ keywords = []
 name = "argshold"
 readme = "README.rst"
 requires-python = ">=3.8"
-version = "1.0.0+local"
+version = "1.0.0+local.2"
 
 [project.license]
 file = "LICENSE.txt"

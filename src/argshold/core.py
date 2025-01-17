@@ -20,6 +20,9 @@ class BaseArgumentHolder(abc.ABC):
     def __eq__(self, other: Any, /) -> bool: ...
 
     @abc.abstractmethod
+    def __hash__(self) -> int: ...
+
+    @abc.abstractmethod
     def __init__(self, *args: Any, **kwargs: Any): ...
 
     def __len__(self) -> int:

@@ -88,6 +88,7 @@ class ArgumentHolder(BaseArgumentHolder):
         value = list(value)
         self._args.clear()
         self._args.extend(value)
+        return self._args
 
     @makeprop(delete=())
     def kwargs(self, value: Any) -> None:
@@ -95,6 +96,7 @@ class ArgumentHolder(BaseArgumentHolder):
         value = dict(value)
         self._kwargs.clear()
         self._kwargs.update(value)
+        return self._kwargs
 
 
 class FrozenArgumentHolder(BaseArgumentHolder):

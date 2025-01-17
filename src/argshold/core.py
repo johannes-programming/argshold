@@ -15,20 +15,20 @@ class BaseArgumentHolder(abc.ABC):
     __slots__ = ("_args", "_kwargs")
 
     def __eq__(self, other, /) -> bool:
-        "This magic method returns self==other."
+        "This magic method implements self==other."
         if not isinstance(other, BaseArgumentHolder):
             return False
         return self.args == other.args and self.kwargs == other.kwargs
 
     @abc.abstractmethod
-    def __init__(self, *args, **kwargs): ...
+    def __init__(self, *args: Any, **kwargs: Any): ...
 
     def __len__(self) -> int:
-        "This magic method returns len(self)."
+        "This magic method implements len(self)."
         return len(self.args) + len(self.kwargs)
 
     def __repr__(self) -> str:
-        "This magic method returns repr(self)."
+        "This magic method implements repr(self)."
         return datarepr(type(self).__name__, *self.args, **self.kwargs)
 
     @property
@@ -104,10 +104,10 @@ class ArgumentHolder(BaseArgumentHolder):
 
 class FrozenArgumentHolder(BaseArgumentHolder):
     def __hash__(self) -> int:
-        "This magic method returns hash(self)."
+        "This magic method implements hash(self)."
         return (self.args, self.kwargs).__hash__()
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         "This magic method sets up the current instance."
         self._args = tuple(args)
         self._kwargs = frozendict(kwargs)

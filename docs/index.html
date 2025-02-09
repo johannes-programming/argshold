@@ -1,98 +1,145 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>argshold</title>
+        <title>fastahold</title>
     </head>
     <body>
-        <dl class="heading0">
-            <dt><a>argshold</a></dt>
+        <dl id="top" class="heading0">
+            <dt><a>fastahold</a></dt>
             <dd>
                 <dl class="heading1">
                     <dt id="intro">Introduction</dt>
                     <dd id="introCorpus">
-                        <p>
-                            This project allows to store the arguments for callables.
-                        </p>
+                        <p>This project provides classes for the storing of FASTA data.</p>
                     </dd>
-                    <dt id="links">Links</dt>
-                    <dd id="linksCorpus"></dd>
                     <dt id="install">Installation</dt>
                     <dd id="installCorpus"></dd>
+                    <dt id="features">Features</dt>
+                    <dd>
+                        <dl class="heading4">
+                            <dt>
+                                class fastahold.Holder(data: Iterable = [])
+                            </dt>
+                            <dd>
+                                <p>
+                                    This class inherits from <code>datahold.OkayList</code>. Its items must be of the class <code><a href="#Record">Record</a></code>.
+                                </p>
+                                <dl class="heading4">
+                                    <dt>data</dt>
+                                    <dd>
+                                        <p>
+                                            This property holds a list of the items of the current instance.
+                                        </p>
+                                    </dd>
+                                    <dt>dump(stream:BinaryIO) -> None</dt>
+                                    <dd>
+                                        <p>
+                                            This method dumps the current instance into a wb stream.
+                                        </p>
+                                    </dd>
+                                    <dt>dumpintofile(file:Any) -> None</dt>
+                                    <dd>
+                                        <p>
+                                            This method dumps the current instance into a file.
+                                        </p>
+                                    </dd>
+                                    <dt>dumps() -> str</dt>
+                                    <dd>
+                                        <p>
+                                            This method dumps the current instance as a string.
+                                        </p>
+                                    </dd>
+                                    <dt>load(stream:BinaryIO) -> Self</dt>
+                                    <dd>
+                                        <p>
+                                            This classmethod loads a new instance from an rb stream.
+                                        </p>
+                                    </dd>
+                                    <dt>loadfromfile(file:Any) -> Self</dt>
+                                    <dd>
+                                        <p>
+                                            This classmethod loads a new instance from a file.
+                                        </p>
+                                    </dd>
+                                    <dt>loads(string:Any) -> Self</dt>
+                                    <dd>
+                                        <p>
+                                            This classmethod loads a new instance from a string.
+                                        </p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                            <dt id="Record">
+                                <ul>
+                                    <li>class fastahold.Record(other: Self)</li>
+                                    <li>class fastahold.Record(*, description: Any = "", seq: Any = "")</li>
+                                    <li>class fastahold.Record(*, bio: Bio.SeqRecord.SeqRecord)</li>
+                                </ul>
+                            </dt>
+                            <dd>
+                                <p>This class represents individual FASTA records.</p>
+                                <dl class="heading4">
+                                    <dt>bio</dt>
+                                    <dd>
+                                        <p>
+                                            This property holds a corresponding <code><a href="https://biopython.org/docs/1.75/api/Bio.SeqRecord.html#Bio.SeqRecord.SeqRecord">Bio.SeqRecord.SeqRecord</a></code>.
+                                        </p>
+                                    </dd>
+                                    <dt>copy() -> Self</dt>
+                                    <dd>
+                                        <p>
+                                            This method returns a copy of the current instance.
+                                        </p>
+                                    </dd>
+                                    <dt>description</dt>
+                                    <dd>
+                                        <p>This property represents the description of the record.</p>
+                                    </dd>
+                                    <dt>dumps() -> str</dt>
+                                    <dd>
+                                        <p>This method dumps the current instance as a string.</p>
+                                    </dd>
+                                    <dt>id</dt>
+                                    <dd>
+                                        <p>This property represents the id of the record.</p>
+                                    </dd>
+                                    <dt>loads(string: Any) -> Self</dt>
+                                    <dd>
+                                        <p>
+                                            This classmethod loads a new instance from a string.
+                                        </p>
+                                    </dd>
+                                    <dt>seq</dt>
+                                    <dd>
+                                        <p>This property holds the seq of the record.</p>
+                                    </dd>
+                                    <dt>supplementary</dt>
+                                    <dd>
+                                        <p>This property holds the supplementary information of the record.</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </dd>
                     <dt id="testing">Testing</dt>
                     <dd id="testingCorpus"></dd>
                     <dt id="license">License</dt>
                     <dd id="licenseCorpus"></dd>
+                    <dt id="links">Links</dt>
+                    <dd id="linksCorpus"></dd>
                     <dt id="impressum">Impressum</dt>
                     <dd id="impressumCorpus"></dd>
-                    <dt id="features">Features</dt>
-                    <dd id="featuresCorpus">
-                        <dl class="heading4">
-                            <dt>class BaseArgumentHolder(*args: Any, **kwargs: Any)</dt>
-                            <dd>
-                                <p>
-                                    This abstract base class implements the common features of 
-                                    <code><a href="ArgumentHolder">ArgumentHolder</a></code> 
-                                    and 
-                                    <code><a href="FrozenArgumentHolder">FrozenArgumentHolder</a></code>.
-                                </p>
-                                <dl class="heading4">
-                                    <dt id="BaseArgumentHolder.__len__">__len__() -> int</dt>
-                                    <dd>
-                                        <p>This magic method implements <code>len(self)</code>.</p>
-                                        <p>It returns the sum of the lengths of <code>args</code> and <code>kwargs</code>.
-                                    </dd>
-                                    <dt id="BaseArgumentHolder.__matmul__">__matmul__(other: Callable) -> Self</dt>
-                                    <dd>
-                                        <p>
-                                            This magic method implements <code>self@other</code>.
-                                        </p>
-                                    </dd>
-                                    <dt id="BaseArgumentHolder.__rmatmul__">__rmatmul__(other: Callable) -> Self</dt>
-                                    <dd><p>This magic method implements <code>other@self</code>.</p></dd>
-                                    <dt id="BaseArgumentHolder.args">args</dt>
-                                    <dd><p>This abstract property represents the positional arguments.</p></dd>
-                                    <dt id="BaseArgumentHolder.call">call(callback: Callable, /) -> Any</dt>
-                                    <dd><p>This method calls a callback using the arguments in the current instance.</p></dd>
-                                    <dt id="BaseArgumentHolder.copy">copy() -> Self</dt>
-                                    <dd><p>This method makes a copy of the current instance.</p></dd>
-                                    <dt id="BaseArgumentHolder.kwargs">kwargs</dt>
-                                    <dd><p>This abstract property represents the keyword arguments.</p></dd>
-                                    <dt id="BaseArgumentHolder.partial">partial(func: Callable, /) -> functools.partial</dt>
-                                    <dd><p>This method creates a <code>functools.partial</code> object.</p></dd>
-                                    <dt id="BaseArgumentHolder.partialmethod">partialmethod(func: Callable, /) -> functools.partial</dt>
-                                    <dd><p>This method creates a <code>functools.partialmethod</code> object.</p></dd>
-                                    <dt id="BaseArgumentHolder.toArgumentHolder">toArgumentHolder() -> ArgumentHolder</dt>
-                                    <dd><p>This method converts the current instance into a <code>ArgumentHolder</code> object.</p></dd>
-                                    <dt id="BaseArgumentHolder.toFrozenArgumentHolder">toFrozenArgumentHolder() -> FrozenArgumentHolder</dt>
-                                    <dd><p>This method converts the current instance into a <code>FrozenArgumentHolder</code> object.</p></dd>
-                                </dl>
-                            </dd>
-                            <dt id="ArgumentHolder">class ArgumentHolder(*args: Any, **kwargs: Any)</dt>
-                            <dd>
-                                <p>This class.</p>
-                                <dl class="heading4">
-                                    <dt id="ArgumentHolder.__imatmul__">__imatmul__(other: Callable) -> Self</dt>
-                                    <dd><p>This magic method implements <code>self@=other</code>.</p></dd>
-                                </dl>
-                            </dd>
-                            <dt id="FrozenArgumentHolder">class FrozenArgumentHolder(*args: Any, **kwargs: Any)</dt>
-                            <dd>
-                                <p>This immutable class.</p>
-                            </dd>
-                        </dl>
-                    </dd>
                 </dl>
             </dd>
         </dl>
     </body>
     <script src="https://www.johannes-programming.online/script.js"></script>
     <script>
-        setupLinksCorpus("argshold");
-        setupInstallCorpus("argshold");
-        setupFeaturesCorpus("argshold");
-        setupTestingCorpus("argshold");
-        setupLicenseCorpus("argshold");
-        setupImpressumCorpus("argshold");
+        setupInstallCorpus("fastahold");
+        setupTestingCorpus("fastahold");
+        setupLicenseCorpus("fastahold");
+        setupLinksCorpus("fastahold");
+        setupImpressumCorpus("fastahold");
         addMetaAndLinkTags();
     </script>
 </html>

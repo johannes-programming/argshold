@@ -33,12 +33,14 @@
                                     </dd>
                                     <dt id="BaseArgumentHolder.__matmul__">__matmul__(other: Callable) -> Self</dt>
                                     <dd>
-                                        <p>
-                                            This magic method implements <code>self@other</code>.
-                                        </p>
+                                        <p>This magic method implements <code>self @ other</code>.</p>
+                                        <p>It returns a copy with <code>other</code> applied to all the values as a callable.</p>
                                     </dd>
                                     <dt id="BaseArgumentHolder.__rmatmul__">__rmatmul__(other: Callable) -> Self</dt>
-                                    <dd><p>This magic method implements <code>other@self</code>.</p></dd>
+                                    <dd>
+                                        <p>This magic method implements <code>other @ self</code>.</p>
+                                        <p><code>other @ self</code> does the same as <code>self @ other</code>.</p>
+                                    </dd>
                                     <dt id="BaseArgumentHolder.args">args</dt>
                                     <dd><p>This abstract property represents the positional arguments.</p></dd>
                                     <dt id="BaseArgumentHolder.call">call(callback: Callable, /) -> Any</dt>

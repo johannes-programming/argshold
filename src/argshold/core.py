@@ -30,7 +30,7 @@ class BaseArgumentHolder(abc.ABC):
         "This magic method implements len(self)."
         return len(self.args) + len(self.kwargs)
 
-    def __matmul__(self, other: Callable) -> "BaseArgumentHolder":
+    def __matmul__(self, other: Callable) -> Self:
         "This magic method implements self@other."
         args = [other(x) for x in self.args]
         kwargs = {k: other(v) for k, v in self.kwargs.items()}
@@ -41,7 +41,7 @@ class BaseArgumentHolder(abc.ABC):
         "This magic method implements repr(self)."
         return datarepr(type(self).__name__, *self.args, **self.kwargs)
 
-    def __rmatmul__(self, other: Callable) -> "BaseArgumentHolder":
+    def __rmatmul__(self, other: Callable) -> Self:
         "This magic method implements other@self."
         return self @ other
 
@@ -53,7 +53,7 @@ class BaseArgumentHolder(abc.ABC):
         "This method calls a callable using the arguments in the current instance."
         return callable(*self.args, **self.kwargs)
 
-    def copy(self) -> "BaseArgumentHolder":
+    def copy(self) -> Self:
         "This method makes a copy of the current instance."
         return self.call(type(self))
 
@@ -97,7 +97,7 @@ class ArgumentHolder(BaseArgumentHolder):
         self._args = list(args)
         self._kwargs = dict(kwargs)
 
-    def __imatmul__(self, other: Callable) -> "ArgumentHolder":
+    def __imatmul__(self, other: Callable) -> Self:
         "This magic method implements self@=other."
         args0 = list(self.args)
         kwargs0 = dict(self.kwargs)

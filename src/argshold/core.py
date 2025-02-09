@@ -10,7 +10,7 @@ from frozendict import frozendict
 from makeprop import makeprop
 from unhash import unhash
 
-__all__ = ["ArgumentHolder", "FrozenArgumentHolder"]
+__all__ = ["BaseArgumentHolder", "ArgumentHolder", "FrozenArgumentHolder"]
 
 
 class BaseArgumentHolder(abc.ABC):
@@ -49,9 +49,9 @@ class BaseArgumentHolder(abc.ABC):
     @abc.abstractmethod
     def args(self): ...
 
-    def call(self, callable: Callable, /) -> Any:
-        "This method calls a callable using the arguments in the current instance."
-        return callable(*self.args, **self.kwargs)
+    def call(self, callback: Callable, /) -> Any:
+        "This method calls a callback using the arguments in the current instance."
+        return callback(*self.args, **self.kwargs)
 
     def copy(self) -> Self:
         "This method makes a copy of the current instance."
@@ -61,20 +61,20 @@ class BaseArgumentHolder(abc.ABC):
     @abc.abstractmethod
     def kwargs(self): ...
 
-    def partial(self, callable: Callable, /) -> functools.partial:
+    def partial(self, func: Callable, /) -> functools.partial:
         "This method creates a functools.partial object."
-        return functools.partial(callable, *self.args, **self.kwargs)
+        return functools.partial(func, *self.args, **self.kwargs)
 
-    def partialmethod(self, callable: Callable, /) -> functools.partial:
+    def partialmethod(self, func: Callable, /) -> functools.partial:
         "This method creates a functools.partialmethod object."
         return functools.partialmethod(
-            callable,
+            func,
             *self.args,
             **self.kwargs,
         )
 
     def toArgumentHolder(self) -> ArgumentHolder:
-        "This method converts the current instance into a ArgumentHolder object."
+        "This method converts the current instance into an ArgumentHolder object."
         return self.call(ArgumentHolder)
 
     def toFrozenArgumentHolder(self) -> FrozenArgumentHolder:

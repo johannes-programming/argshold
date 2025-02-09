@@ -18,6 +18,12 @@
                     <dd id="linksCorpus"></dd>
                     <dt id="install">Installation</dt>
                     <dd id="installCorpus"></dd>
+                    <dt id="testing">Testing</dt>
+                    <dd id="testingCorpus"></dd>
+                    <dt id="license">License</dt>
+                    <dd id="licenseCorpus"></dd>
+                    <dt id="impressum">Impressum</dt>
+                    <dd id="impressumCorpus"></dd>
                     <dt id="features">Features</dt>
                     <dd id="featuresCorpus">
                         <dl class="heading4">
@@ -41,21 +47,19 @@
                                             This magic method implements <code>self@other</code>.
                                         </p>
                                     </dd>
-                                    <dt id="BaseArgumentHolder.__repr__">__repr__() -> str</dt>
-                                    <dd><p>This magic method implements <code>repr(self)</code>.</p></dd>
                                     <dt id="BaseArgumentHolder.__rmatmul__">__rmatmul__(other: Callable) -> Self</dt>
                                     <dd><p>This magic method implements <code>other@self</code>.</p></dd>
                                     <dt id="BaseArgumentHolder.args">args</dt>
                                     <dd><p>This abstract property represents the positional arguments.</p></dd>
-                                    <dt id="BaseArgumentHolder.call">call(callable: Callable, /) -> Any</dt>
-                                    <dd><p>This method calls a callable using the arguments in the current instance.</p></dd>
+                                    <dt id="BaseArgumentHolder.call">call(callback: Callable, /) -> Any</dt>
+                                    <dd><p>This method calls a callback using the arguments in the current instance.</p></dd>
                                     <dt id="BaseArgumentHolder.copy">copy() -> Self</dt>
                                     <dd><p>This method makes a copy of the current instance.</p></dd>
                                     <dt id="BaseArgumentHolder.kwargs">kwargs</dt>
                                     <dd><p>This abstract property represents the keyword arguments.</p></dd>
-                                    <dt id="BaseArgumentHolder.partial">partial(callable: Callable, /) -> functools.partial</dt>
+                                    <dt id="BaseArgumentHolder.partial">partial(func: Callable, /) -> functools.partial</dt>
                                     <dd><p>This method creates a <code>functools.partial</code> object.</p></dd>
-                                    <dt id="BaseArgumentHolder.partialmethod">partialmethod(callable: Callable, /) -> functools.partial</dt>
+                                    <dt id="BaseArgumentHolder.partialmethod">partialmethod(func: Callable, /) -> functools.partial</dt>
                                     <dd><p>This method creates a <code>functools.partialmethod</code> object.</p></dd>
                                     <dt id="BaseArgumentHolder.toArgumentHolder">toArgumentHolder() -> ArgumentHolder</dt>
                                     <dd><p>This method converts the current instance into a <code>ArgumentHolder</code> object.</p></dd>
@@ -77,12 +81,6 @@
                             </dd>
                         </dl>
                     </dd>
-                    <dt id="testing">Testing</dt>
-                    <dd id="testingCorpus"></dd>
-                    <dt id="license">License</dt>
-                    <dd id="licenseCorpus"></dd>
-                    <dt id="impressum">Impressum</dt>
-                    <dd id="impressumCorpus"></dd>
                 </dl>
             </dd>
         </dl>

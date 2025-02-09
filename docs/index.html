@@ -4,28 +4,18 @@
         <title>argshold</title>
     </head>
     <body>
-        <dl class="heading0">
+        <dl id="top" class="heading0">
             <dt><a>argshold</a></dt>
             <dd>
                 <dl class="heading1">
                     <dt id="intro">Introduction</dt>
                     <dd id="introCorpus">
-                        <p>
-                            This project allows to store the arguments for callables.
-                        </p>
+                        <p>This project allows to store the arguments for callables.</p>
                     </dd>
-                    <dt id="links">Links</dt>
-                    <dd id="linksCorpus"></dd>
                     <dt id="install">Installation</dt>
                     <dd id="installCorpus"></dd>
-                    <dt id="testing">Testing</dt>
-                    <dd id="testingCorpus"></dd>
-                    <dt id="license">License</dt>
-                    <dd id="licenseCorpus"></dd>
-                    <dt id="impressum">Impressum</dt>
-                    <dd id="impressumCorpus"></dd>
                     <dt id="features">Features</dt>
-                    <dd id="featuresCorpus">
+                    <dd>
                         <dl class="heading4">
                             <dt>class BaseArgumentHolder(*args: Any, **kwargs: Any)</dt>
                             <dd>
@@ -43,12 +33,14 @@
                                     </dd>
                                     <dt id="BaseArgumentHolder.__matmul__">__matmul__(other: Callable) -> Self</dt>
                                     <dd>
-                                        <p>
-                                            This magic method implements <code>self@other</code>.
-                                        </p>
+                                        <p>This magic method implements <code>self @ other</code>.</p>
+                                        <p>It returns a copy with <code>other</code> applied to all the values as a callable.</p>
                                     </dd>
                                     <dt id="BaseArgumentHolder.__rmatmul__">__rmatmul__(other: Callable) -> Self</dt>
-                                    <dd><p>This magic method implements <code>other@self</code>.</p></dd>
+                                    <dd>
+                                        <p>This magic method implements <code>other @ self</code>.</p>
+                                        <p><code>other @ self</code> does the same as <code>self @ other</code>.</p>
+                                    </dd>
                                     <dt id="BaseArgumentHolder.args">args</dt>
                                     <dd><p>This abstract property represents the positional arguments.</p></dd>
                                     <dt id="BaseArgumentHolder.call">call(callback: Callable, /) -> Any</dt>
@@ -69,7 +61,7 @@
                             </dd>
                             <dt id="ArgumentHolder">class ArgumentHolder(*args: Any, **kwargs: Any)</dt>
                             <dd>
-                                <p>This class.</p>
+                                <p>This class provides mutable argument holders.</p>
                                 <dl class="heading4">
                                     <dt id="ArgumentHolder.__imatmul__">__imatmul__(other: Callable) -> Self</dt>
                                     <dd><p>This magic method implements <code>self@=other</code>.</p></dd>
@@ -77,21 +69,28 @@
                             </dd>
                             <dt id="FrozenArgumentHolder">class FrozenArgumentHolder(*args: Any, **kwargs: Any)</dt>
                             <dd>
-                                <p>This immutable class.</p>
+                                <p>This class provides immutable argument holders.</p>
                             </dd>
                         </dl>
                     </dd>
+                    <dt id="testing">Testing</dt>
+                    <dd id="testingCorpus"></dd>
+                    <dt id="license">License</dt>
+                    <dd id="licenseCorpus"></dd>
+                    <dt id="links">Links</dt>
+                    <dd id="linksCorpus"></dd>
+                    <dt id="impressum">Impressum</dt>
+                    <dd id="impressumCorpus"></dd>
                 </dl>
             </dd>
         </dl>
     </body>
     <script src="https://www.johannes-programming.online/script.js"></script>
     <script>
-        setupLinksCorpus("argshold");
         setupInstallCorpus("argshold");
-        setupFeaturesCorpus("argshold");
         setupTestingCorpus("argshold");
         setupLicenseCorpus("argshold");
+        setupLinksCorpus("argshold");
         setupImpressumCorpus("argshold");
         addMetaAndLinkTags();
     </script>

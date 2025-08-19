@@ -21,8 +21,8 @@ classifiers = [
 dependencies = [
     "datarepr>=1.0.1,<2",
     "frozendict>=2.4.6,<3",
-    "makeprop>=1.0",
-    "unhash>=1.0",
+    "makeprop>=1.0,<2",
+    "unhash>=1.0,<2",
 ]
 description = "This project provides holders for the arguments for callables."
 keywords = []

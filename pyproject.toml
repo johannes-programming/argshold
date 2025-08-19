@@ -7,7 +7,6 @@ requires = [
 [project]
 authors = [
     { email = "johannes.programming@gmail.com", name = "Johannes" },
-    { email = "johannes-programming@mailfence.com", name = "Johannes" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -20,17 +19,17 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datarepr>=1.0.1",
-    "frozendict>=2.4.6",
-    "makeprop>=1.0",
-    "unhash>=1.0",
+    "datarepr>=1.0.1,<2",
+    "frozendict>=2.4.6,<3",
+    "makeprop>=1.0,<2",
+    "unhash>=1.0,<2",
 ]
 description = "This project provides holders for the arguments for callables."
 keywords = []
 name = "argshold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.4"
+version = "1.0.5"
 
 [project.license]
 file = "LICENSE.txt"

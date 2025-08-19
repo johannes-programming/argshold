@@ -19,7 +19,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "datarepr>=1.0.1",
+    "datarepr>=1.0.2,<2",
     "frozendict>=2.4.6",
     "makeprop>=1.0",
     "unhash>=1.0",

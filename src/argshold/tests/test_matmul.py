@@ -8,7 +8,7 @@ class TestMatMulOperations(unittest.TestCase):
 
     def test_matmul_argument_holder(self: Self) -> None:
         # Define a simple transformation function to test with matmul
-        def multiply_by_two(x):
+        def multiply_by_two(x: Any) -> Any:
             return x * 2
 
         # Create an ArgumentHolder instance with some arguments
@@ -25,7 +25,7 @@ class TestMatMulOperations(unittest.TestCase):
 
     def test_matmul_frozen_argument_holder(self: Self) -> None:
         # Define a simple transformation function to test with matmul
-        def square(x):
+        def square(x: Any) -> Any:
             return x * x
 
         # Create a FrozenArgumentHolder instance with some arguments
@@ -42,7 +42,7 @@ class TestMatMulOperations(unittest.TestCase):
 
     def test_rmatmul_argument_holder(self: Self) -> None:
         # Define a simple transformation function to test with rmatmul
-        def add_five(x):
+        def add_five(x: Any) -> Any:
             return x + 5
 
         # Create an ArgumentHolder instance with some arguments
@@ -93,7 +93,7 @@ class TestMatMulOperations(unittest.TestCase):
 
     def test_imatmul_frozen_argument_holder(self: Self) -> None:
         # Define a simple transformation function to test with imatmul
-        def add_ten(x):
+        def add_ten(x: Any) -> Any:
             return x + 10
 
         # Create a FrozenArgumentHolder instance with some arguments

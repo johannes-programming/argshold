@@ -32,7 +32,7 @@ class TestArgumentHolder(unittest.TestCase):
     def test_call(self: Self) -> None:
         holder = ArgumentHolder(1, 2, a=3, b=4)
 
-        def sample_function(*args: Any, **kwargs: Any) -> Any:
+        def sample_function(*args: Any, **kwargs: Any) -> tuple:
             return args, kwargs
 
         result = holder.call(sample_function)

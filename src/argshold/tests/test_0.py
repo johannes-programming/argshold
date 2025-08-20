@@ -41,7 +41,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
             holder.kwargs = frozendict(c=5)
 
     def test_call(self: Self) -> None:
-        def sample_function(x, y, a=0, b=0):
+        def sample_function(x: Any, y: Any, a: Any = 0, b: Any = 0) -> Any:
             return x + y + a + b
 
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
@@ -66,7 +66,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
             def alive(self: Self) -> Any:
                 return self._alive
 
-            def set_state(self, state):
+            def set_state(self: Self, state: Any) -> None:
                 self._alive = bool(state)
 
             set_alive = trueHolder.partialmethod(set_state)

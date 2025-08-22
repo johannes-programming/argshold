@@ -32,9 +32,11 @@ class BaseArgumentHolder(abc.ABC):
 
     def __matmul__(self: Self, other: Callable) -> Self:
         "This magic method implements self@other."
-        args = [other(x) for x in self.args]
-        kwargs = {k: other(v) for k, v in self.kwargs.items()}
-        ans = type(self)(*args, **kwargs)
+        x: Any
+        y: Any
+        args: list = [other(x) for x in self.args]
+        kwargs: dict = {x: other(y) for x, y in self.kwargs.items()}
+        ans: Self = type(self)(*args, **kwargs)
         return ans
 
     def __repr__(self: Self) -> str:
@@ -59,13 +61,13 @@ class BaseArgumentHolder(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def kwargs(self): ...
+    def kwargs(self: Self): ...
 
     def partial(self: Self, func: Callable, /) -> functools.partial:
         "This method creates a functools.partial object."
         return functools.partial(func, *self.args, **self.kwargs)
 
-    def partialmethod(self: Self, func: Callable, /) -> functools.partial:
+    def partialmethod(self: Self, func: Callable, /) -> functools.partialmethod:
         "This method creates a functools.partialmethod object."
         return functools.partialmethod(
             func,
@@ -99,10 +101,12 @@ class ArgumentHolder(BaseArgumentHolder):
 
     def __imatmul__(self: Self, other: Callable) -> Self:
         "This magic method implements self@=other."
-        args0 = list(self.args)
-        kwargs0 = dict(self.kwargs)
-        args = [other(x) for x in self.args]
-        kwargs = {k: other(v) for k, v in self.kwargs.items()}
+        x: Any
+        y: Any
+        args0: list = list(self.args)
+        kwargs0: dict = dict(self.kwargs)
+        args: list = [other(x) for x in self.args]
+        kwargs: dict = {x: other(y) for x, y in self.kwargs.items()}
         try:
             self.args = args
             self.kwargs = kwargs
@@ -116,7 +120,7 @@ class ArgumentHolder(BaseArgumentHolder):
     @makeprop(delete=())
     def args(self: Self, value: Iterable) -> None:
         "This property holds the positional arguments."
-        value = list(value)
+        value: list = list(value)
         self._args.clear()
         self._args.extend(value)
         return self._args
@@ -124,7 +128,7 @@ class ArgumentHolder(BaseArgumentHolder):
     @makeprop(delete=())
     def kwargs(self: Self, value: Any) -> None:
         "This property holds the keyword arguments."
-        value = dict(value)
+        value: dict = dict(value)
         self._kwargs.clear()
         self._kwargs.update(value)
         return self._kwargs

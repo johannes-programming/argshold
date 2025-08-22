@@ -12,10 +12,10 @@ class TestMatMulOperations(unittest.TestCase):
             return x * 2
 
         # Create an ArgumentHolder instance with some arguments
-        arg_holder = ArgumentHolder(1, 2, 3, a=4, b=5)
+        arg_holder: ArgumentHolder = ArgumentHolder(1, 2, 3, a=4, b=5)
 
         # Perform @matmul operation with the function `multiply_by_two`
-        result = arg_holder @ multiply_by_two
+        result: Any = arg_holder @ multiply_by_two
 
         # Check if the positional arguments are transformed correctly
         self.assertEqual(result.args, [2, 4, 6])
@@ -29,10 +29,12 @@ class TestMatMulOperations(unittest.TestCase):
             return x * x
 
         # Create a FrozenArgumentHolder instance with some arguments
-        frozen_arg_holder = FrozenArgumentHolder(2, 3, 4, x=5, y=6)
+        frozen_arg_holder: FrozenArgumentHolder = FrozenArgumentHolder(
+            2, 3, 4, x=5, y=6
+        )
 
         # Perform @matmul operation with the function `square`
-        result = frozen_arg_holder @ square
+        result: Any = frozen_arg_holder @ square
 
         # Check if the positional arguments are transformed correctly
         self.assertEqual(list(result.args), [4, 9, 16])
@@ -46,10 +48,10 @@ class TestMatMulOperations(unittest.TestCase):
             return x + 5
 
         # Create an ArgumentHolder instance with some arguments
-        arg_holder = ArgumentHolder(1, 2, 3, a=4, b=5)
+        arg_holder: ArgumentHolder = ArgumentHolder(1, 2, 3, a=4, b=5)
 
         # Perform @matmul operation with the function `add_five`
-        result = add_five @ arg_holder
+        result: Any = add_five @ arg_holder
 
         # Check if the positional arguments are transformed correctly
         self.assertEqual(result.args, [6, 7, 8])
@@ -63,10 +65,12 @@ class TestMatMulOperations(unittest.TestCase):
             return x - 3
 
         # Create a FrozenArgumentHolder instance with some arguments
-        frozen_arg_holder = FrozenArgumentHolder(10, 20, 30, x=40, y=50)
+        frozen_arg_holder: FrozenArgumentHolder = FrozenArgumentHolder(
+            10, 20, 30, x=40, y=50
+        )
 
         # Perform @matmul operation with the function `subtract_three`
-        result = subtract_three @ frozen_arg_holder
+        result: Any = subtract_three @ frozen_arg_holder
 
         # Check if the positional arguments are transformed correctly
         self.assertEqual(list(result.args), [7, 17, 27])
@@ -80,7 +84,7 @@ class TestMatMulOperations(unittest.TestCase):
             return x * 3
 
         # Create an ArgumentHolder instance with some arguments
-        arg_holder = ArgumentHolder(1, 2, 3, a=4, b=5)
+        arg_holder: ArgumentHolder = ArgumentHolder(1, 2, 3, a=4, b=5)
 
         # Perform @= operation with the function `multiply_by_three`
         arg_holder @= multiply_by_three
@@ -97,7 +101,9 @@ class TestMatMulOperations(unittest.TestCase):
             return x + 10
 
         # Create a FrozenArgumentHolder instance with some arguments
-        frozen_arg_holder = FrozenArgumentHolder(1, 2, 3, x=4, y=5)
+        frozen_arg_holder: FrozenArgumentHolder = FrozenArgumentHolder(
+            1, 2, 3, x=4, y=5
+        )
 
         # Perform @= operation with the function `add_ten`
         frozen_arg_holder @= add_ten

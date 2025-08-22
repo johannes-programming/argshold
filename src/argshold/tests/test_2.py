@@ -17,12 +17,12 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(self.holder.kwargs, self.kwargs)
 
     def test_set_args(self: Self) -> None:
-        new_args = [4, 5, 6]
+        new_args: list = [4, 5, 6]
         self.holder.args = new_args
         self.assertEqual(self.holder.args, new_args)
 
     def test_set_kwargs(self: Self) -> None:
-        new_kwargs = {"x": 30, "y": 40}
+        new_kwargs: dict = {"x": 30, "y": 40}
         self.holder.kwargs = new_kwargs
         self.assertEqual(self.holder.kwargs, new_kwargs)
 
@@ -35,7 +35,7 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(self.holder.kwargs, {})
 
     def test_copy(self: Self) -> None:
-        copy_holder = self.holder.copy()
+        copy_holder: ArgumentHolder = self.holder.copy()
         self.assertIsInstance(copy_holder, ArgumentHolder)
         self.assertEqual(copy_holder.args, self.args)
         self.assertEqual(copy_holder.kwargs, self.kwargs)
@@ -66,7 +66,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
         self.assertEqual(hash(self.holder), hash((self.args, self.kwargs)))
 
     def test_copy(self: Self) -> None:
-        copy_holder = self.holder.copy()
+        copy_holder: FrozenArgumentHolder = self.holder.copy()
         self.assertIsInstance(copy_holder, FrozenArgumentHolder)
         self.assertEqual(copy_holder.args, self.args)
         self.assertEqual(copy_holder.kwargs, self.kwargs)

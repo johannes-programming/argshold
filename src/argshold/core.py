@@ -49,7 +49,7 @@ class BaseArgumentHolder(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def args(self): ...
+    def args(self: Self) -> Any: ...
 
     def call(self: Self, callback: Callable, /) -> Any:
         "This method calls a callback using the arguments in the current instance."
@@ -61,7 +61,7 @@ class BaseArgumentHolder(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def kwargs(self: Self): ...
+    def kwargs(self: Self) -> Any: ...
 
     def partial(self: Self, func: Callable, /) -> functools.partial:
         "This method creates a functools.partial object."

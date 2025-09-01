@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import abc
 import functools
-import types
 from typing import *
 
 from datarepr import datarepr
@@ -34,7 +33,7 @@ class BaseArgumentHolder(abc.ABC):
         "This magic method implements self@other."
         x: Any
         y: Any
-        args: list = [other(x) for x in self.args]
+        args: list = list(map(other, self.args))
         kwargs: dict = {x: other(y) for x, y in self.kwargs.items()}
         ans: Self = type(self)(*args, **kwargs)
         return ans
@@ -105,7 +104,7 @@ class ArgumentHolder(BaseArgumentHolder):
         y: Any
         args0: list = list(self.args)
         kwargs0: dict = dict(self.kwargs)
-        args: list = [other(x) for x in self.args]
+        args: list = list(map(other, self.args))
         kwargs: dict = {x: other(y) for x, y in self.kwargs.items()}
         try:
             self.args = args

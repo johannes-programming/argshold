@@ -202,14 +202,14 @@ class ArgsHolder:
     @property
     def args(self: Self) -> tuple:
         "This property represents the positional arguments."
-        return self.args
+        return self._args
 
     @args.setter
     def args(self: Self, value: Iterable) -> None:
         self._args = tuple(value)
 
-    @setdoc.basic
     def clear(self: Self) -> None:
+        "This method removes all positional and keyword arguments."
         self.args = ()
         self.kwargs = frozendict()
 
@@ -221,8 +221,8 @@ class ArgsHolder:
         "This method counts how often value occures within the positional arguments."
         return self.count(value)
 
-    @setdoc.basic
     def extend(self: Self, iterable: Iterable, /) -> None:
+        "This method extends the positional arguments by the given iterable."
         self.args += tuple(iterable)
 
     def get(self: Self, key: Any, /, default: Any = None) -> Any:

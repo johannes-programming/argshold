@@ -1,3 +1,4 @@
+import builtins as bi
 import operator
 import sys
 from typing import *
@@ -147,6 +148,9 @@ class ArgsHolder:
     def __str__(self: Self) -> str:
         return repr(self)
 
+    def _cmp(self: Self) -> tuple[tuple, frozendict]:
+        return self.args, self.kwargs
+
     @classmethod
     def _key(cls: type, key: Any, *, allowsslice: bool) -> int | slice | str:
         if allowsslice and type(key) is slice:
@@ -155,42 +159,6 @@ class ArgsHolder:
             return operator.index(key)
         except Exception:
             return str(key)
-
-    @classmethod
-    def _map(
-        cls: type,
-        *,
-        args: tuple,
-        kwargs: dict,
-        strict: bool,
-        callback: Callable,
-    ) -> Generator[Any, None, None]:
-        holder: Self
-        holders: Iterable
-        holders = cls._zip(args=args, kwargs=kwargs, strict=strict)
-        for holder in holders:
-            yield holder.apply(callback)
-
-    @classmethod
-    def _zip(
-        cls: type,
-        *,
-        args: tuple,
-        kwargs: dict,
-        strict: bool,
-    ) -> Generator[Self, None, None]:
-        keys: tuple
-        yargs: tuple
-        yvalues: tuple
-        zargs: zip
-        zdata: zip
-        zvalues: zip
-        keys = tuple(map(str, kwargs.keys()))
-        zargs = zip(*args, strict=strict)
-        zvalues = zip(*kwargs.values(), strict=strict)
-        zdata = zip(zargs, zvalues, strict=strict)
-        for yargs, yvalues in zdata:
-            yield cls(*yargs, **dict(zip(keys, yvalues)))
 
     def apply(self: Self, callback: Callable) -> Any:
         return callback(*self, **self)
@@ -219,7 +187,7 @@ class ArgsHolder:
 
     def count(self: Self, value: Any, /) -> int:
         "This method counts how often value occures within the positional arguments."
-        return self.count(value)
+        return self.args.count(value)
 
     def extend(self: Self, iterable: Iterable, /) -> None:
         "This method extends the positional arguments by the given iterable."
@@ -265,28 +233,12 @@ class ArgsHolder:
     def map(
         self: Self,
         callback: Callable,
-        *args: Iterable,
-        **kwargs: Iterable,
+        *,
+        strict: Any,
     ) -> Generator[Any, None, None]:
-        return self._map(
-            args=args,
-            kwargs=kwargs,
-            strict=False,
-            callback=callback,
-        )
-
-    def mapstrict(
-        self: Self,
-        callback: Callable,
-        *args: Iterable,
-        **kwargs: Iterable,
-    ) -> Generator[Any, None, None]:
-        return self._map(
-            args=args,
-            kwargs=kwargs,
-            strict=True,
-            callback=callback,
-        )
+        holder: Self
+        for holder in self.zip(strict=strict):
+            yield holder.apply(callback)
 
     @overload
     def pop(self: Self, key: SupportsIndex = -1, /) -> Any: ...
@@ -330,7 +282,7 @@ class ArgsHolder:
     def remove(self: Self, value: Any, /) -> None:
         "This method removes the first occurence of value for the positional arguments."
         data: list
-        data = list(data)
+        data = list(self)
         data.remove(value)
         self.args = data
 
@@ -362,18 +314,20 @@ class ArgsHolder:
         "This method returns the values of the keyword arguments."
         return self.kwargs.values()
 
-    @classmethod
-    def zip(
-        cls: type,
-        *args: Iterable,
-        **kwargs: Iterable,
-    ) -> Generator[Self, None, None]:
-        return cls._zip(args=args, kwargs=kwargs, strict=False)
-
-    @classmethod
-    def zipstrict(
-        cls: type,
-        *args: Iterable,
-        **kwargs: Iterable,
-    ) -> Generator[Self, None, None]:
-        return cls._zip(args=args, kwargs=kwargs, strict=True)
+    def zip(self: Self, strict: Any = False) -> Generator[Self, None, None]:
+        keys: tuple
+        strict_: bool
+        yargs: tuple
+        ykwargs: dict
+        yvalues: tuple
+        zargs: bi.zip
+        zdata: bi.zip
+        zvalues: bi.zip
+        keys = tuple(self.keys())
+        strict_ = bool(strict)
+        zargs = bi.zip(*self, strict=strict_)
+        zvalues = bi.zip(*self.values(), strict=strict_)
+        zdata = bi.zip(zargs, zvalues, strict=strict_)
+        for yargs, yvalues in zdata:
+            ykwargs = dict(bi.zip(keys, yvalues))
+            yield type(self)(*yargs, **ykwargs)

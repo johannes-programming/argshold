@@ -29,7 +29,7 @@ keywords = []
 name = "argshold"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "2.0.0+local.2"
+version = "2.0.0+u"
 
 [project.license]
 file = "LICENSE.txt"

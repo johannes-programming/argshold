@@ -7,20 +7,23 @@ import setdoc
 from datarepr import datarepr
 from frozendict import frozendict
 from unhash import unhash
+import enum
+from typing import *
+import operator
 
 __all__ = ["ArgsHolder"]
-
 
 class _empty:
     pass
 
 
-class ArgsHolder:
 
+class ArgsHolder:
+        
     __slots__ = ("_args", "_kwargs")
 
     args: tuple
-    kwargs: frozendict
+    kwargs: frozendict[str, Any]
 
     @setdoc.basic
     def __add__(self: Self, other: Iterable) -> list:
@@ -32,7 +35,7 @@ class ArgsHolder:
 
     @setdoc.basic
     def __contains__(self: Self, other: Any) -> bool:
-        return other in self.args
+        return other in self.args or other in self.values()
 
     @setdoc.basic
     def __delitem__(self: Self, key: Any) -> None:
@@ -160,9 +163,6 @@ class ArgsHolder:
         except Exception:
             return str(key)
 
-    def apply(self: Self, callback: Callable) -> Any:
-        return callback(*self, **self)
-
     def append(self: Self, item: Any, /) -> None:
         "This method appends the positional arguments by value."
         self.args += (item,)
@@ -176,14 +176,33 @@ class ArgsHolder:
     def args(self: Self, value: Iterable) -> None:
         self._args = tuple(value)
 
-    def clear(self: Self) -> None:
+    def clear(
+            self: Self, 
+            *, 
+            realm: SupportsIndex = Realm.BOTH,
+    ) -> None:
         "This method removes all positional and keyword arguments."
-        self.args = ()
-        self.kwargs = frozendict()
+        r: Any
+        r = Realm(realm)
+        if r | Realm.ARGS:
+            self.args = ()
+        if r | Realm.KWARGS:
+            self.kwargs = frozendict()
 
     @setdoc.basic
-    def copy(self: Self) -> Self:
-        return type(self)(*self, **self)
+    def copy(
+            self: Self, 
+            *, 
+            realm: SupportsIndex = Realm.BOTH,
+    ) -> Optional[list | dict | Self]:
+        r: Any
+        r = Realm(realm)
+        if r == Realm.ARGS:
+            return list(self)
+        if r == Realm.KWARGS:
+            return dict(self)
+        if r == Realm.BOTH:
+            return type(self)(*self, **self)
 
     def count(self: Self, value: Any, /) -> int:
         "This method counts how often value occures within the positional arguments."
@@ -202,11 +221,12 @@ class ArgsHolder:
         value: Any,
         start: SupportsIndex = 0,
         stop: SupportsIndex = sys.maxsize,
+        /,
     ) -> int:
         "This method returns the index of the first occurence of value within the positional arguments."
         return self.args.index(value, start, stop)
 
-    def insert(self: Self, index: SupportsIndex, value: Any) -> None:
+    def insert(self: Self, index: SupportsIndex, value: Any, /) -> None:
         "This method inserts value at index into the positional arguments."
         data: list
         data = list(self)
@@ -302,6 +322,17 @@ class ArgsHolder:
     def sort(self: Self, *, key: Any = None, reverse: Any = False) -> Any:
         "This method sorts the positional arguments."
         self.args = sorted(self.args, key=key, reverse=bool(reverse))
+    
+    def starcall(self:Self, callback:Callable, /) -> Any:
+        return callback(*self, **self) 
+    
+    def transform(self: Self, transformation: Callable, /) -> None:
+        args: tuple
+        kwargs: Iterable
+        args = tuple(map(transformation, self))
+        kwargs = frozendict(zip(self.keys(), map(transformation, self.values())))
+        self.args = args
+        self.kwargs = kwargs
 
     def update(self: Self, dictionary: Any = (), /, **kwargs: Any) -> None:
         "This method updates the keyword arguments."
@@ -331,3 +362,6 @@ class ArgsHolder:
         for yargs, yvalues in zdata:
             ykwargs = dict(bi.zip(keys, yvalues))
             yield type(self)(*yargs, **ykwargs)
+
+Realm.__qualname__ += ".ArgsHolder"
+ArgsHolder.Realm = Realm

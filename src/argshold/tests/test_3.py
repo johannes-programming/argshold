@@ -1,10 +1,11 @@
 import unittest
+from typing import *
 
 from argshold.core import ArgumentHolder, FrozenArgumentHolder
 
 
 class TestArgumentHolder(unittest.TestCase):
-    def test_initialization(self):
+    def test_initialization(self: Self) -> None:
         args = (1, 2, 3)
         kwargs = {"a": 10, "b": 20}
         holder = ArgumentHolder(*args, **kwargs)
@@ -12,7 +13,7 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(holder.args, list(args))
         self.assertEqual(holder.kwargs, kwargs)
 
-    def test_equality(self):
+    def test_equality(self: Self) -> None:
         holder1 = ArgumentHolder(1, 2, a=3, b=4)
         holder2 = ArgumentHolder(1, 2, a=3, b=4)
         holder3 = ArgumentHolder(1, 2, a=3)
@@ -20,7 +21,7 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(holder1, holder2)
         self.assertNotEqual(holder1, holder3)
 
-    def test_argument_modification(self):
+    def test_argument_modification(self: Self) -> None:
         holder = ArgumentHolder(1, 2, 3, a=10, b=20)
 
         holder.args = [4, 5, 6]
@@ -29,16 +30,16 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(holder.args, [4, 5, 6])
         self.assertEqual(holder.kwargs, {"x": 30, "y": 40})
 
-    def test_len(self):
+    def test_len(self: Self) -> None:
         holder = ArgumentHolder(1, 2, 3, a=10, b=20)
         self.assertEqual(len(holder), 5)
 
-    def test_call(self):
+    def test_call(self: Self) -> None:
         holder = ArgumentHolder(1, 2, a=3, b=4)
         result = holder.call(lambda x, y, a, b: x + y + a + b)
         self.assertEqual(result, 10)
 
-    def test_copy(self):
+    def test_copy(self: Self) -> None:
         holder = ArgumentHolder(1, 2, a=3, b=4)
         copied_holder = holder.copy()
 
@@ -46,7 +47,7 @@ class TestArgumentHolder(unittest.TestCase):
         self.assertEqual(copied_holder.kwargs, holder.kwargs)
         self.assertIsNot(copied_holder, holder)
 
-    def test_conversion(self):
+    def test_conversion(self: Self) -> None:
         holder = ArgumentHolder(1, 2, a=3, b=4)
         frozen_holder = holder.toFrozenArgumentHolder()
 
@@ -56,7 +57,7 @@ class TestArgumentHolder(unittest.TestCase):
 
 
 class TestFrozenArgumentHolder(unittest.TestCase):
-    def test_initialization(self):
+    def test_initialization(self: Self) -> None:
         args = (1, 2, 3)
         kwargs = {"a": 10, "b": 20}
         holder = FrozenArgumentHolder(*args, **kwargs)
@@ -64,7 +65,7 @@ class TestFrozenArgumentHolder(unittest.TestCase):
         self.assertEqual(holder.args, args)
         self.assertEqual(holder.kwargs, kwargs)
 
-    def test_equality(self):
+    def test_equality(self: Self) -> None:
         holder1 = FrozenArgumentHolder(1, 2, a=3, b=4)
         holder2 = FrozenArgumentHolder(1, 2, a=3, b=4)
         holder3 = FrozenArgumentHolder(1, 2, a=3)
@@ -72,22 +73,22 @@ class TestFrozenArgumentHolder(unittest.TestCase):
         self.assertEqual(holder1, holder2)
         self.assertNotEqual(holder1, holder3)
 
-    def test_len(self):
+    def test_len(self: Self) -> None:
         holder = FrozenArgumentHolder(1, 2, 3, a=10, b=20)
         self.assertEqual(len(holder), 5)
 
-    def test_call(self):
+    def test_call(self: Self) -> None:
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
         result = holder.call(lambda x, y, a, b: x + y + a + b)
         self.assertEqual(result, 10)
 
-    def test_hash(self):
+    def test_hash(self: Self) -> None:
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
         hash_value = hash(holder)
 
         self.assertIsInstance(hash_value, int)
 
-    def test_conversion(self):
+    def test_conversion(self: Self) -> None:
         holder = FrozenArgumentHolder(1, 2, a=3, b=4)
         normal_holder = holder.toArgumentHolder()
 
